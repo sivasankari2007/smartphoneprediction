@@ -2,17 +2,27 @@ import streamlit as st
 import pickle
 import numpy as np
 
-with open("smart/smartphonepredict.pkl", "rb") as f:
+# Load model
+with open("", "rb") as f:
     model = pickle.load(f)
 
-st.title("📱 Mobile Price Prediction")
+st.title("📱 Mobile Price Prediction App")
 
-f1 = st.number_input("Feature 1")
-f2 = st.number_input("Feature 2")
-f3 = st.number_input("Feature 3")
-f4 = st.number_input("Feature 4")
+# Get number of features expected by model
+num_features = model.n_features_in_
+
+st.write(f"🔢 Model expects {num_features} features")
+
+inputs = []
+
+# Create dynamic input boxes
+for i in range(num_features):
+    value = st.number_input(f"Feature {i+1}", value=0.0)
+    inputs.append(value)
 
 if st.button("Predict"):
-    result = model.predict([[f1, f2, f3, f4]])
-    st.success(f"Predicted Price: ₹ {result[0]:.2f}")
+    input_array = np.array(inputs).reshape(1, -1)
+    prediction = model.predict(input_array)
+    st.success(f"Predicted Price: ₹ {prediction[0]:.2f}")
+
 
