@@ -3,7 +3,7 @@ import pickle
 import numpy as np
 
 # Load model
-with open("", "rb") as f:
+with open("smart/smartphonepredict.pkl", "rb") as f:
     model = pickle.load(f)
 
 st.title("📱 Mobile Price Prediction App")
@@ -24,5 +24,6 @@ if st.button("Predict"):
     input_array = np.array(inputs).reshape(1, -1)
     prediction = model.predict(input_array)
     st.success(f"Predicted Price: ₹ {prediction[0]:.2f}")
+
 
 
